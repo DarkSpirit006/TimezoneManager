@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+group = 'com.darkspirit'
+version = '1.0.0'
+
+description = 'Global JVM timezone manager for Bukkit, Spigot, Paper and Purpur servers.'
+
+repositories {
+    maven {
+        name = 'Spigot'
+        url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {
+        transitive = false
+    }
+    implementation 'org.bstats:bstats-bukkit:3.2.1'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 8
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:all,-options']
+}
+
+tasks.withType(Test).configureEach {
+    useJUnit()
+}
+
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.named('shadowJar') {
+    archiveClassifier.set('')
+    relocate 'org.bstats', 'com.darkspirit.timezonemanager.libs.bstats'
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
+}
+
+processResources {
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}

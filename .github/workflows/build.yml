@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '9.8.0'
+
+      - name: Build
+        run: gradle clean build --no-daemon
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: TimezoneManager
+          path: build/libs/TimezoneManager-*.jar
+          if-no-files-found: error

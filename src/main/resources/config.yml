@@ -1,0 +1,4 @@
+# Global default timezone used by the Java VM.
+# Use an IANA timezone ID, e.g. Asia/Kolkata, Europe/London, UTC.
+# Use "system" to restore the timezone that existed before this plugin loaded.
+timezone: system

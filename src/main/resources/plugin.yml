@@ -1,0 +1,20 @@
+name: TimezoneManager
+version: ${version}
+main: com.darkspirit.timezonemanager.TimezoneManagerPlugin
+author: DarkSpirit
+website: https://github.com/DarkSpirit006
+load: STARTUP
+description: Simple global JVM timezone manager for Bukkit, Spigot, Paper and Purpur servers.
+
+commands:
+  timezone:
+    description: Manage the global server timezone.
+    usage: /timezone [<timezone>|info|reload|reset|system]
+    aliases: [tz]
+    permission: timezone.admin
+    permission-message: "§cYou do not have permission to manage the server timezone."
+
+permissions:
+  timezone.admin:
+    description: Allows changing and viewing the global server timezone.
+    default: op
